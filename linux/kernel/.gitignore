@@ -1,0 +1,20 @@
+# Build artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.order
+*.symvers
+*.cmd
+
+# Kernel build system generated files
+Module.symvers
+modules.order
+.tmp_versions/
+
+# Hidden cmd files generated per object
+.*.cmd
+
+# Build directory
+built-in.a
