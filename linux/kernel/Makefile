@@ -1,5 +1,16 @@
-obj-m += localdrop_interceptor.o
-localdrop_interceptor-y := main.o interceptor.o
+obj-m += localdrop.o
+localdrop-y := main.o \
+				localdrop_ioctl.o \
+				localdrop_dev.o \
+				access_control.o \
+				interceptor.o \
+				ed25519/src/fe.o \
+				ed25519/src/ge.o \
+				ed25519/src/sc.o \
+				ed25519/src/sha512.o \
+				ed25519/src/keypair.o \
+				ed25519/src/sign.o
+ccflags-y += -I$(src)/ed25519/src
 
 PWD := $(shell pwd)
 KDIR := /lib/modules/$(shell uname -r)/build
@@ -11,14 +22,14 @@ clean:
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
 
 load:
-	sudo insmod localdrop_interceptor.ko
+	sudo insmod localdrop.ko
 
 unload:
-	sudo rmmod localdrop_interceptor
+	sudo rmmod localdrop
 
 reload: unload load
 
 log:
 	sudo dmesg --follow --human
 
-.PHONY: all kernel clean load unload reload log
+.PHONY: all clean load unload reload log

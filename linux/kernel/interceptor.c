@@ -2,7 +2,7 @@
 #include <linux/input.h>
 #include <linux/slab.h>
 #include <linux/types.h>
-#include "interceptor.h"
+#include "../include/interceptor.h"
 
 /* ─── modifier state ───────────────────────────────────────── */
 
@@ -118,18 +118,34 @@ static bool interceptor_filter(struct input_handle *handle,
     if (update_modifiers(hh, code, value))
         return false;
 
-    if (code == KEY_V && (hh->mod_state & MOD_ALL) == MOD_ALL)
+    if ((hh->mod_state & MOD_ALL) != MOD_ALL)
+    {
+        return false;
+    }
+
+    switch (code)
+    {
+    case KEY_V:
     {
         if (value == 1)
         {
             pr_info("ld_hotkey: Ctrl+Shift+Alt+V on [%s]\n",
                     handle->dev->name);
             if (interceptor_cb)
-                interceptor_cb();
+                interceptor_cb(PASTE);
         }
         return true; /* suppress press and release */
     }
-
+    case KEY_C:
+        if (value == 1)
+        {
+            pr_info("ld_hotkey: Ctrl+Shift+Alt+V on [%s]\n",
+                    handle->dev->name);
+            if (interceptor_cb)
+                interceptor_cb(COPY);
+        }
+        return true; /* suppress press and release */
+    }
     return false;
 }
 
@@ -207,7 +223,7 @@ int interceptor_init(interceptor_callback_t cb)
         return err;
     }
 
-    pr_info("ld_interceptor: watching for Ctrl+Shift+Alt+V\n");
+    pr_info("ld_interceptor: input handler registered\n");
     return 0;
 }
 

@@ -1,10 +1,15 @@
 #ifndef INTERCEPTOR_H
 #define INTERCEPTOR_H
 
+enum Hotkey
+{
+    COPY,
+    PASTE
+};
+
 /* Callback type invoked when the hotkey combination is detected.
  * Implemented in main.c — wires into netlink in phase 2. */
-typedef void (*interceptor_callback_t)(void);
-
+typedef void (*interceptor_callback_t)(enum Hotkey key);
 int interceptor_init(interceptor_callback_t cb);
 void interceptor_exit(void);
 
