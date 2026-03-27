@@ -1,0 +1,34 @@
+## Visual Studio Build Artifacts
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+*.pdb
+*.exe
+*.dll
+
+## Visual Studio Tooling and Cache
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.cache
+*.opendb
+*.VC.db
+
+## MSBuild and NuGet
+node_modules/
+packages/
+*.nuget.props
+*.nuget.targets
+
+## Compiled Python (if using Python Tools for VS)
+__pycache__/
+*.pyc
+
+## Operating System Files
+Thumbs.db
+.DS_Store
